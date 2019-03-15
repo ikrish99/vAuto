@@ -17,10 +17,12 @@ export class AppComponent {
   public LATEST_INFO: any = {};
   public MYSET: any = {};
   public POST_INFO: any = {};
-  public MESSAGE: string = 'BELOW INFO IS COMING FROM LOCAL STORAGE';
+  public MESSAGE: string = 'BELOW INFO IS COMING FROM LOCAL STORAGE. FETCHING LATEST INFO ...';
   public CODE: string = '';
+  public isLoading = true;
 
   constructor(private _http: HttpClient) {
+    this.isLoading = true;
     this.INFO.dealers = [];
     this.LATEST_INFO.dealers = [];
     this.getLocalInfo();
@@ -79,6 +81,7 @@ export class AppComponent {
           this.getLocalInfo();
 
           this.POST_INFO = await this._http.post(`${this.URL}/${dataSet}/answer`, this.LATEST_INFO).toPromise();
+          this.isLoading = false;
           this.MESSAGE = 'INFO IS UP TO DATE'
 
         }
@@ -94,6 +97,8 @@ export class AppComponent {
   getLocalInfo() {
     if (this.STORAGE.getItem(this.KEY)) {
       this.INFO = JSON.parse(this.STORAGE.getItem(this.KEY));
+    } else {
+      this.MESSAGE = 'FETCHING LATEST INFO ...';
     }
   }
 

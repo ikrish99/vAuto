@@ -1,11 +1,12 @@
 <!--The content below is only a placeholder and can be replaced.-->
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 <div style="text-align:center">
   <h1>
     Welcome to {{ title }}!
   </h1>
 </div>
 
-<p class="message">{{MESSAGE}}</p>
+<p class="message" *ngIf="INFO.dealers.length > 0 || LATEST_INFO.dealers.length > 0">{{MESSAGE}}</p>
 <mat-accordion *ngIf="INFO">
   <div *ngFor="let element of INFO.dealers">
     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
